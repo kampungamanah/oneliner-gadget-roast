@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 
 // One line roasting a gadget used every day.
+// A watch celebrating standing up sets the fitness bar at "vertical" — the lowest goal possible.
 // Writes the line to /output/entry.txt (or $MAKEFUN_OUTPUT_DIR/entry.txt).
 // No trailing newline: the gate counts every character.
 const line = "My smartwatch just congratulated me for standing up. My fitness goal is now officially 'vertical'.";
