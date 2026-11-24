@@ -1,14 +1,21 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import * as fs from "node:fs";
 
-// One line roasting a gadget used every day.
-// A watch celebrating standing up sets the fitness bar at "vertical" — the lowest goal possible.
-// Writes the line to /output/entry.txt (or $MAKEFUN_OUTPUT_DIR/entry.txt).
-// No trailing newline: the gate counts every character.
-const line = "My smartwatch just congratulated me for standing up. My fitness goal is now officially 'vertical'.";
-for (const dir of [process.env.MAKEFUN_OUTPUT_DIR, "/output"]) {
-  if (!dir) continue;
+// One line aimed at the gadget that never leaves the wrist.
+// A watch that celebrates standing up sets the fitness bar at "vertical".
+// The file must end exactly at the last character of the line: no newline is appended.
+// The smartwatch has already awarded itself a badge for this entry.
+const entry = "My smartwatch just congratulated me for standing up. My fitness goal is now officially 'vertical'.";
+
+function emit(target) {
+  fs.mkdirSync(target, { recursive: true });
+  fs.writeFileSync(target + "/entry.txt", entry);
+}
+
+const destinations = [process.env.MAKEFUN_OUTPUT_DIR, "/output"].filter(Boolean);
+for (const destination of destinations) {
   try {
-    mkdirSync(dir, { recursive: true });
-    writeFileSync(dir + "/entry.txt", line);
-  } catch {}
+    emit(destination);
+  } catch {
+    // If one destination cannot be written, move on; the other still gets the entry.
+  }
 }
